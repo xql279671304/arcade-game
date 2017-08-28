@@ -38,6 +38,7 @@ var Engine = (function(global) {
          * 可以使动画更加顺畅。
          */
         update(dt);
+        clearCanvas();
         render();
 
         /* 设置我们的 lastTime 变量，它会被用来决定 main 函数下次被调用的事件。 */
@@ -46,6 +47,7 @@ var Engine = (function(global) {
         /* 在浏览准备好调用重绘下一个帧的时候，用浏览器的 requestAnimationFrame 函数
          * 来调用这个函数
          */
+        if(player.failNum > 2 || player.success) return;
         win.requestAnimationFrame(main);
     }
 
@@ -85,7 +87,7 @@ var Engine = (function(global) {
     function checkCollisions() {
         allEnemies.forEach(function(enemy) {
             if(enemy.x - 50 <= player.x && enemy.x + 50 > player.x && enemy.y - 50 <= player.y && enemy.y + 50 > player.y){
-                player.death = true;
+                player.fail = true;
                 return;
             }
         });
@@ -104,13 +106,17 @@ var Engine = (function(global) {
      */
     function render() {
         /* 这个数组保存着游戏关卡的特有的行对应的图片相对路径。 */
-        var rowImages = [
-                'images/water-block.png',   // 这一行是河。
-                'images/stone-block.png',   // 第一行石头
-                'images/stone-block.png',   // 第二行石头
-                'images/stone-block.png',   // 第三行石头
-                'images/grass-block.png',   // 第一行草地
-                'images/grass-block.png'    // 第二行草地
+        var water = 'images/water-block.png',
+            stone = 'images/stone-block.png',
+            grass = 'images/grass-block.png',
+
+            rowImages = [
+                [water, stone, stone, stone, water],
+                [grass, grass, grass, grass, grass],
+                [grass, grass, grass, grass, grass],
+                [grass, grass, grass, grass, grass],
+                [grass, grass, grass, grass, grass],
+                [stone, stone, stone, stone, stone]
             ],
             numRows = 6,
             numCols = 5,
@@ -123,7 +129,7 @@ var Engine = (function(global) {
                  * 第二个和第三个分别是起始点的x和y坐标。我们用我们事先写好的资源管理工具来获取
                  * 我们需要的图片，这样我们可以享受缓存图片的好处，因为我们会反复的用到这些图片
                  */
-                ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+                ctx.drawImage(Resources.get(rowImages[row][col]), col * 101, row * 83);
             }
         }
 
@@ -153,6 +159,12 @@ var Engine = (function(global) {
         // 空操作
     }
 
+    /**
+     * 清除幕布
+     */
+    function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
     /* 紧接着我们来加载我们知道的需要来绘制我们游戏关卡的图片。然后把 init 方法设置为回调函数。
      * 那么党这些图片都已经加载完毕的时候游戏就会开始。
      */

@@ -1,9 +1,9 @@
-// 这是我们的玩家要躲避的敌人 
+ // 这是我们的玩家要躲避的敌人
 var Enemy = function() {
     // 要应用到每个敌人的实例的变量写在这里
     // 我们已经提供了一个来帮助你实现更多
     this.x = Math.round(Math.random()*70);
-    this.y = _getRadnom(3, 84, 60);
+    this.y = _getRadnom(4, 84, 60);
     this.id = new Date().getTime();
 
     // 敌人的图片或者雪碧图，用一个我们提供的工具函数来轻松的加载文件
@@ -36,7 +36,9 @@ Enemy.prototype.render = function() {
 var Player = function() {
     this.x = 10;
     this.y = 400;
-    this.death = false;
+    this.fail = false;
+    this.success = false;
+    this.failNum = 0;
     this.diamond = {
         orange: 0,
         blue: 0,
@@ -48,7 +50,17 @@ var Player = function() {
 //更新玩家的位置
 Player.prototype.update = function(dx, dy) {
     if(dx && ((this.x + dx) > 500 || (this.x + dx) < 0)) return;
-    if(dy && ((this.y + dy) > 400 || (this.y + dy) < 0)) return;
+    if(dy && ((this.y + dy) > 400 || (this.y + dy) < -85)) return;
+    if(dx && this.y < 0 && (this.x + dx < 100 || this.x + dx > 400)) return;
+    if(dy && this.y + dy < 0 && (this.x < 100 || this.x > 400)) return;
+    if(dy && this.y + dy < 0 && (this.x > 100 || this.x < 400)){
+        _DealDom('success');
+        player.success = true;
+    }
+    if(dx && dy < 0 && (this.x + dx > 100 || this.x + dx < 400)){
+        _DealDom('success');
+        player.success = true;
+    }
     if(dx){
         this.x += dx;
     }
@@ -60,10 +72,15 @@ Player.prototype.update = function(dx, dy) {
 // 用来在屏幕上面画出玩家的位置
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    if(this.death){
+    if(this.fail){
+        this.fail = false;
         this.y = 400;
         this.x = _getRadnom(5, 100, 10);
-        this.death = false;
+        if(this.failNum+1<=3){
+            this.failNum += 1;
+            _DealDom('blood');
+        }
+        this.failNum == 3 && _DealDom('fail');
     }
 };
 
@@ -108,7 +125,7 @@ Diamond.prototype.render = function() {
     var type = this.type;
     if(this.status === 'obtain') {
         player.diamond[type] += 1;
-        _getDiamond(type);
+        _DealDom(type);
         return;
     }
     ctx.drawImage(Resources.get(this.sprites[type]), this.x, this.y, 50, 86);
@@ -123,21 +140,31 @@ function _getRadnom(num, fixedData, start) {
 }
 
 // 处理dom
-function _getDiamond(type) {
+function _DealDom(type) {
     var bonus = document.getElementsByClassName('bonus')[0];
     var ali = bonus.getElementsByTagName('li');
     var li;
     if(type === 'orange') {
-        li = ali[2];
+        li = ali[3];
         diamonds.splice(2, 1);
     }else if(type === 'blue') {
-        li = ali[0];
+        li = ali[1];
         diamonds.splice(0, 1);
     }else if(type === 'green') {
-        li = ali[1];
+        li = ali[2];
         diamonds.splice(1, 1);
+    }else if(type === 'blood'){
+        li = ali[0];
+        if(!player.failNum) return;
+        for(var i = 0, len = player.failNum; i < len; i++){
+            li && (li.getElementsByTagName('span')[2-i].className = 'lose');
+        }
+    }else if(type === 'fail'){
+        document.getElementsByClassName('ending')[0].style.display = 'flex';
+    }else if(type === 'success'){
+        document.getElementsByClassName('ending')[1].style.display = 'flex';
     }
-    li && (li.getElementsByTagName('span')[0].innerHTML = '×'+player.diamond[type]);
+    type!== 'blood' && li && (li.getElementsByTagName('span')[0].innerHTML = '×'+player.diamond[type]);
 }
 
 // 现在实例化你的所有对象
