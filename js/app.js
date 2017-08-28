@@ -126,9 +126,11 @@ Diamond.prototype.render = function() {
     if(this.status === 'obtain') {
         player.diamond[type] += 1;
         _DealDom(type);
+        _playMusic('bonus');
+        this.status = 'hasObtain';
         return;
     }
-    ctx.drawImage(Resources.get(this.sprites[type]), this.x, this.y, 50, 86);
+    this.status !== 'hasObtain' && ctx.drawImage(Resources.get(this.sprites[type]), this.x, this.y, 50, 86);
 };
 
 // 随机生成敌人的位置
@@ -141,18 +143,14 @@ function _getRadnom(num, fixedData, start) {
 
 // 处理dom
 function _DealDom(type) {
-    var bonus = document.getElementsByClassName('bonus')[0];
-    var ali = bonus.getElementsByTagName('li');
+    var ali = bonusLi;
     var li;
     if(type === 'orange') {
         li = ali[3];
-        diamonds.splice(2, 1);
     }else if(type === 'blue') {
         li = ali[1];
-        diamonds.splice(0, 1);
     }else if(type === 'green') {
         li = ali[2];
-        diamonds.splice(1, 1);
     }else if(type === 'blood'){
         li = ali[0];
         if(!player.failNum) return;
@@ -161,10 +159,36 @@ function _DealDom(type) {
         }
     }else if(type === 'fail'){
         document.getElementsByClassName('ending')[0].style.display = 'flex';
+        _playMusic('fail');
     }else if(type === 'success'){
         document.getElementsByClassName('ending')[1].style.display = 'flex';
+        _playMusic('success');
     }
     type!== 'blood' && li && (li.getElementsByTagName('span')[0].innerHTML = '×'+player.diamond[type]);
+}
+
+ /**
+  * 播放音乐
+  * @param type
+  * @private
+  */
+ function _playMusic(type) {
+    var music = '';
+    for(var i = 0, len = musics.length; i < len; i++){
+        if(type === 'bonus' && i === 0) continue;
+        musics[i].pause();
+        musics[i].currentTime = 0;
+    }
+    if(type === 'begin'){
+        music = musics[0];
+    }else if(type === 'bonus'){
+        music = musics[1];
+    }else if(type === 'success'){
+        music = musics[3];
+    }else if(type === 'fail'){
+        music = musics[2];
+    }
+    music && music.play();
 }
 
 // 现在实例化你的所有对象
@@ -200,3 +224,10 @@ document.addEventListener('keyup', function(e) {
     };
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+ window.onload = function () {
+     // 获取音乐DOM
+     window.musics = document.getElementsByTagName('audio');
+     // 砖石DOM
+     window.bonusLi = document.getElementsByClassName('bonus')[0].getElementsByTagName('li');
+ };

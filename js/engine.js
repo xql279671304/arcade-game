@@ -91,10 +91,12 @@ var Engine = (function(global) {
                 return;
             }
         });
-        diamonds.forEach(function(diamond, index) {
-            if(diamond.x - 50 <= player.x && diamond.x + 50 > player.x && diamond.y - 60 <= player.y && diamond.y + 20 > player.y){
-                diamond.status = 'obtain';
-                return;
+        diamonds.forEach(function(diamond) {
+            if(diamond.status !== 'hasObtain') {
+                if(diamond.x - 50 <= player.x && diamond.x + 50 > player.x && diamond.y - 60 <= player.y && diamond.y + 20 > player.y){
+                    diamond.status = 'obtain';
+                    return;
+                }
             }
         });
     }
