@@ -1,0 +1,113 @@
+body {
+    text-align: center;
+}
+.bonus{
+    width: 100%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+}
+.bonus ul{
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+.bonus ul li{
+    list-style: none;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+}
+.bonus ul li img{
+    width: 30px;
+}
+.bonus ul li span{
+    padding-top: 14px;
+    padding-left: 8px;
+}
+.bonus ul li.blood span{
+    width: 10px;
+    height: 8px;
+    background-color: red;
+    margin-right: 1px;
+    padding-top: 0;
+    margin-top: 10px;
+}
+.bonus ul li.blood img{
+    padding-top: 6px;
+}
+.bonus ul li.blood span.lose{
+    background-color: #cccccc;
+}
+.ending {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+.ending div{
+    width: 100%;
+    height: 100%;
+    padding-top: 150px;
+    background: rgba(0,0,0,0.3);
+}
+.ending h4{
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+    color: #ffffff;
+    text-shadow: 1px 1px 4px #131212;
+    margin: 20px 0;
+}
+
+/*注册 登录*/
+.form{
+    display: flex;
+    background: url(../images/bg.jpeg) no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    align-content: center;
+    align-items: center;
+}
+.form h2{
+    display: block;
+    margin: 0;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 26px;
+}
+.form label{
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+}
+.form  input{
+    width: 180px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 8px 2px;
+    margin-bottom: 10px;
+}
+.form > div{
+    width: 300px;
+    display: block;
+    margin: auto;
+}
+.form button{
+    background-color: #2ab7be;
+    border-radius: 4px;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    margin: 20px 0;
+    cursor: pointer;
+}

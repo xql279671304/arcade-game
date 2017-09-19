@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <style>
+        body{
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="form">
+    <div>
+        <h2>注册</h2>
+        <div>
+            <form>
+                <div>
+                    <label>手机号：</label>
+                    <input type="number" name="name" placeholder="请输入手机号">
+                </div>
+                <div>
+                    <label>输入密码：</label>
+                    <input type="password" name="password" placeholder="请输入密码">
+                </div>
+            </form>
+        </div>
+        <button type="button" id="submit">确定登录</button>
+    </div>
+</div>
+<script src="js/common.js"></script>
+<script>
+    var btn = document.getElementById('submit');
+    btn.addEventListener('click', submitData, false);
+    var params = {};
+    function submitData() {
+        var inputs = document.getElementsByTagName('input');
+        for(var i=0;i<inputs.length;i++){
+            if(!inputs[i].value){
+                alert('您的登录信息没有填写完整！');
+                return;
+            }
+            if(inputs[i].name=='name'&&inputs[i].value.length!=11){
+                alert('您的电话没有填写正确！');
+                return;
+            }
+            if(inputs[i].name=='password'){
+                if(inputs[i].value.length<8){
+                    alert('密码最少长度为8位！');
+                    return;
+                }
+            }
+            params[inputs[i].name] = inputs[i].value;
+        }
+        $commonMethods.sendReq('/login', params, function (data) {
+            if(data.code==200){
+                alert('恭喜您，登录成功！');
+                location.href = 'index.html';
+            }else{
+                alert(data.code+':'+data.message);
+            }
+        })
+    }
+</script>
+</body>
+</html>

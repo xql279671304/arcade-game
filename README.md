@@ -6,6 +6,12 @@
 
 关于如何开始这个项目的更详细的指导，可以查阅这份[指南](https://gdgdocs.org/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true)。
 
+# 操作步骤
+
+## npm install 安装包
+## npm 使用版本 v 7.8以上
+## npm run dev 可以将应用运行起
+
 # 怎么玩
 
     直接在浏览器上面打开index.html，就可以玩这个游戏啦！
@@ -18,3 +24,11 @@
 * 下：向下走
 * 左：向左走
 * 右：向右走
+
+# code 代码
+
+## 200 成功
+## 208 数据库储存数据失败
+## 201 账号密码不存在
+## 202 账号已经存在
+## 203 用户不存在
