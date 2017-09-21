@@ -170,13 +170,13 @@ function _DealDom(type) {
 
 // 上传数据
 function uploadData() {
-    var ali = bonusLi;
     var params = {
         name: sessionStorage.getItem('name'),
         blue: player.diamond['blue']*1,
         green: player.diamond['green']*1,
         orange: player.diamond['orange']*1
     };
+    if (!params.name) return;
     $commonMethods.sendReq('/getScore', params, function (data) {
         if(data.code==200){
             console.log(data.message);
