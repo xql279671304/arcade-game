@@ -15,6 +15,9 @@ var UserSchema = new Schema({
         type: String,
         require: true
     },
+    blue: Number,
+    green: Number,
+    orange: Number,
     createAt: String,
     updateAt: String
 });

@@ -4,6 +4,7 @@ var commonMethods = function () {
 
 commonMethods.prototype.sendReq = function (url, params, callback, type, option) {
     var result;
+    console.log(params)
     $.ajax({
         async: callback ? true : false,
         timeout: 150000,

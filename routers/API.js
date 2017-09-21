@@ -20,4 +20,7 @@ router.get('/login', API.login);
 //注册
 router.post('/register', upload.array(), API.register);
 
+// 更新得分
+router.put('/getScore', upload.array(), API.getScore);
+
 module.exports = router;

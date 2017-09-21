@@ -9,7 +9,7 @@
 # 操作步骤
 
 * npm install 安装包
-* npm 使用版本 v 7.8以上
+* npm 使用版本 v7.8以上
 * npm run dev 可以将应用运行起
 
 # 怎么玩

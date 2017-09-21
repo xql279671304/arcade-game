@@ -22,12 +22,14 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     var body = req.query;
     var user = await User.findOne(body);
+    var data;
     res.status(200);
     if(user&&user._id){
-        res.send({code: 200, message: '登录成功！'});
+        data = {code: 200, message: '登录成功！'};
     }else{
-        res.send({code: 201, message: '抱歉，账号或密码错误！'});
+        data = {code: 201, message: '抱歉，账号或密码错误！'};
     }
+    res.send(data);
 };
 
 exports.getScore = async(req, res) => {
@@ -35,8 +37,10 @@ exports.getScore = async(req, res) => {
     var user = await User.findOne({name: body.name});
     var data;
     if(user){
-
+        await User.update({name: body.name}, {$set: body}, {upsert: true});
+        data = {code: 200, message: '保存数据成功！'};
     }else{
         data = {code: 203, message: '用户不存在！'};
     }
+    res.send(data);
 };

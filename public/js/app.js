@@ -163,13 +163,27 @@ function _DealDom(type) {
     }else if(type === 'success'){
         document.getElementsByClassName('ending')[1].style.display = 'flex';
         _playMusic('success');
+        uploadData();
     }
     type!== 'blood' && li && (li.getElementsByTagName('span')[0].innerHTML = '×'+player.diamond[type]);
 }
 
 // 上传数据
 function uploadData() {
-
+    var ali = bonusLi;
+    var params = {
+        name: sessionStorage.getItem('name'),
+        blue: player.diamond['blue']*1,
+        green: player.diamond['green']*1,
+        orange: player.diamond['orange']*1
+    };
+    $commonMethods.sendReq('/getScore', params, function (data) {
+        if(data.code==200){
+            console.log(data.message);
+        }else{
+            alert(data.code+':'+data.message);
+        }
+    }, 'PUT')
 }
 
  /**

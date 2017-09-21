@@ -56,6 +56,7 @@
         }
         $commonMethods.sendReq('/login', params, function (data) {
             if(data.code==200){
+                sessionStorage.setItem('name', params.name);
                 alert('恭喜您，登录成功！');
                 location.href = 'index.html';
             }else{
