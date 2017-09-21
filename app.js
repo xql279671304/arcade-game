@@ -7,7 +7,7 @@ var login = require('./routers/API.js');
 
 //**
 // mongodb://127.0.0.1:27000/arcadeGame
-var dbUrl = 'mongodb://127.0.0.1:27000/arcadeGame';
+var dbUrl = 'mongodb://101.37.204.216:27017/atest';
 
 mongoose.Promise = global.Promise;
 mongoose.connect(dbUrl);
